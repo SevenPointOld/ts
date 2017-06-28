@@ -5,6 +5,7 @@ import org.apache.zookeeper.Watcher;
 import org.apache.zookeeper.ZooKeeper;
 
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 一个简单的zk客户端实现
@@ -30,12 +31,14 @@ public class SimpleZkClient implements Watcher {
                 //这里注册一个watcher实例
                 new SimpleZkClient(latch));
         //获取客户端的连接状态
-        System.out.println(zkClient.getState());
+        System.out.println("zk客户端状态：" + zkClient.getState());
 
         //阻塞等待，直到会话建立成功
         latch.await();
 
-        System.out.println("zkClient session 创建成功！");
+        System.out.println("zkClient session 创建成功");
+        System.out.println("zk客户端状态：" + zkClient.getState());
+        TimeUnit.SECONDS.sleep(Integer.MAX_VALUE);
     }
 
     /**
