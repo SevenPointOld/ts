@@ -55,6 +55,7 @@ public class SimpleZkClient implements Watcher {
         String path = zkClient.create("/myNodeSyn",
                 "hello zk!".getBytes("utf-8"),
                 ZooDefs.Ids.OPEN_ACL_UNSAFE,
+                //只有临时节点，才允许创建子节点
                 CreateMode.PERSISTENT);
         System.out.println("同步创建持久节点 path:" + path);
         //同步创建子节点，这里要注意，如果父节点是临时节点的话 是不允许创建子节点的
@@ -78,24 +79,32 @@ public class SimpleZkClient implements Watcher {
 
 
         /**
-         * 节点读取 begin
+         * 读取节点子节点列表 begin
          */
         //同步获取节点的一级子节点列表，并启用默认Watcher(就是实例化ZK客户端时的Watcher)
         List<String> childNodeList = zkClient.getChildren(path, true);
-        System.out.println("获取子节点 " + childNodeList);
+        System.out.println("同步获取子节点 " + childNodeList);
+        //异步获取节点的一级列表，不注册Watcher
+
         //这里创建一个子节点，验证是否通知对应事件类型给客户端
         zkClient.create(path + "/child2",
                 "hello zk!".getBytes("utf-8"),
                 ZooDefs.Ids.OPEN_ACL_UNSAFE,
                 CreateMode.EPHEMERAL);
-
         /**
-         * 节点读取 end
+         * 读取节点子节点列表 end
          */
 
 
+        /**
+         * 读取节点数据 begin
+         */
+        //同步读取节点数据
 
 
+        /**
+         * 读取节点数据 end
+         */
 
 
         TimeUnit.SECONDS.sleep(Integer.MAX_VALUE);
@@ -118,7 +127,7 @@ public class SimpleZkClient implements Watcher {
                 try {
                     //重新同步获取子节点，并注册默认Watcher
                     List<String> childNodeList = zkClient.getChildren(watchedEvent.getPath(), true);
-                    System.out.println("重新获取子节点 " + childNodeList);
+                    System.out.println("重新同步获取子节点 " + childNodeList);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -128,7 +137,7 @@ public class SimpleZkClient implements Watcher {
 
 
     /**
-     * 回调对象
+     * 回调对像
      */
     public static class MyStringCallBack implements AsyncCallback.StringCallback {
 
