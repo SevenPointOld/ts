@@ -8,18 +8,18 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 /**
- * 一个简单的zk客户端实现
+ * 一个由zk原生API实现的zk客户端
  *
  * @author liujc
  * @create 2017-06-28 11:45
  **/
-public class SimpleZkClient implements Watcher {
+public class NativeZkClient implements Watcher {
 
     public static ZooKeeper zkClient = null;
 
     private  CountDownLatch latch;
 
-    public SimpleZkClient(CountDownLatch latch) {
+    public NativeZkClient(CountDownLatch latch) {
         this.latch = latch;
     }
 
@@ -31,7 +31,7 @@ public class SimpleZkClient implements Watcher {
          */
         zkClient = new ZooKeeper("localhost:2181,localhost:2182,localhost:2183", 5000,
                 //这里注册一个watcher实例
-                new SimpleZkClient(latch));
+                new NativeZkClient(latch));
         //获取客户端的连接状态
         System.out.println("zk客户端状态：" + zkClient.getState());
 
@@ -72,7 +72,7 @@ public class SimpleZkClient implements Watcher {
                 "hello zk!".getBytes("utf-8"),
                 ZooDefs.Ids.OPEN_ACL_UNSAFE,
                 CreateMode.EPHEMERAL,
-                new SimpleZkClient.MyStringCallBack(),
+                new NativeZkClient.MyStringCallBack(),
                 "我是上下文~~~~");
         /**
          * 节点创建 end
