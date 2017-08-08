@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
- * 开源Zk客户端com.github.sgroschupf
+ * 开源Zk客户端com.github.sgroschupf  弱爆了
  *  输出：
  *  ZkClient 会话创建成功！
      创建持久节点成功，path:/parent/child
@@ -30,7 +30,7 @@ import java.util.concurrent.TimeUnit;
  * @author liujc
  * @create 2017-07-03 17:00
  **/
-public class OSZkClientOne {
+public class OSZkClient {
 
 
     public static void main(String[] args) throws Exception{
@@ -38,7 +38,7 @@ public class OSZkClientOne {
         ZkClient zkClient = new ZkClient("localhost:2181,localhost:2182,localhost:2183",
                 5000,
                 10000,
-                new OSZkClientOne.JsonSerializer());
+                new OSZkClient.JsonSerializer());
         System.out.println("ZkClient 会话创建成功！");
 
         //创建持久节点，并递归创建父节点
