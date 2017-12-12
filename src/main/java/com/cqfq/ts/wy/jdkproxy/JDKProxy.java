@@ -1,10 +1,10 @@
 package com.cqfq.ts.wy.jdkproxy;
 
+import org.junit.Test;
+
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
-
-import org.junit.Test;
 
 /**
  * <p>JDK动态代理 目标对象需实现接口 代理对象无需实现接口</p>
