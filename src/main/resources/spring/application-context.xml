@@ -15,5 +15,39 @@
     <bean id="methodExeuctionEventPublisher" class="com.cqfq.ts.wy.eventListener.MethodExeuctionEventPublisher" init-method="initMethod">
     </bean> -->
     
+    <!-- spring 代理 -->
+    <!-- AOP -->
+    <bean id="book" class="com.cqfq.ts.wy.advice.Book">  
+        <property name="name" value="Effective java" />  
+        <property name="url" value="www.google.cn"/>  
+        <property name="pages" value="300" />  
+    </bean> 
+    
+    <!-- 切点 define  a  pointcut -->
+    <bean id="bookPointcut" class="org.springframework.aop.support.NameMatchMethodPointcut">
+      <property name="mappedName" value="print*"/>
+    </bean>
+    
+    <!-- 实现方法拦截器  method  -->
+    <bean id="myMethodInterceptor" class="com.cqfq.ts.wy.advice.MyMethodInterceptor"/>
+    
+    <!-- define a advisor --> 
+    <!-- <bean id="bookAdvisor" class="org.springframework.aop.support.DefaultPointcutAdvisor"> 与DefaultBeanFactoryPointcutAdvisor一致，只是添加工厂模式：松耦合 实现延迟加载advice--> 
+    <bean id="bookAdvisor" class="org.springframework.aop.support.DefaultBeanFactoryPointcutAdvisor">
+      <property name="pointcut" ref="bookPointcut"/>
+      <property name="advice" ref="myMethodInterceptor"></property>
+    </bean>
+    
+    <bean id="bookProxy" class="org.springframework.aop.framework.ProxyFactoryBean" >  
+     <property name="target" ref="book"/>  
+       
+     <property name="interceptorNames">  
+       <list>  
+        
+        <value>bookAdvisor</value>  
+       </list>  
+     </property>  
+      
+     </bean> 
     
 </beans>
